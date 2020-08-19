@@ -8,8 +8,8 @@ SELECT MAX(CHAR_LENGTH(CITY)) FROM STATION
 UNION 
 SELECT MIN(CHAR_LENGTH(CITY)) FROM STATION
 ) ORDER BY CHAR_LENGTH(CITY) DESC, CITY LIMIT 2;
-           
-           
+
+
 
 -- Samantha was tasked with calculating the average monthly salaries for all employees in the EMPLOYEES table,
 -- but did not realize her keyboard's  key was broken until after completing the calculation.
@@ -18,7 +18,7 @@ SELECT MIN(CHAR_LENGTH(CITY)) FROM STATION
 --Write a query calculating the amount of error (i.e.:  average monthly salaries), and round it up to the next integer.   
 
 SELECT CEIL(AVG(salary) - AVG(REPLACE(salary, '0', ''))) FROM EMPLOYEES;
-                                      
+
 
 
 -- We define an employee's total earnings to be their monthly worked,
@@ -28,3 +28,20 @@ SELECT CEIL(AVG(salary) - AVG(REPLACE(salary, '0', ''))) FROM EMPLOYEES;
 
 SELECT (salary * months), COUNT(employee_id)
 FROM Employee GROUP BY (salary * months) ORDER BY (salary * months) DESC  LIMIT 1;
+
+-- Write a query identifying the type of each record in the TRIANGLES table using its three side lengths.
+-- Output one of the following statements for each record in the table:
+
+-- Equilateral: It's a triangle with  sides of equal length.
+-- Isosceles: It's a triangle with  sides of equal length.
+-- Scalene: It's a triangle with  sides of differing lengths.
+-- Not A Triangle: The given values of A, B, and C don't form a triangle
+
+SELECT 
+CASE
+WHEN (A = B AND B = C AND C = A) THEN 'Equilateral'
+WHEN (A + B > C) AND (A = B OR B = C OR C = A) THEN 'Isosceles'
+WHEN (A + B > C) THEN 'Scalene'
+ELSE 'Not A Triangle'
+END
+FROM TRIANGLES
