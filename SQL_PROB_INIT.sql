@@ -45,3 +45,28 @@ WHEN (A + B > C) THEN 'Scalene'
 ELSE 'Not A Triangle'
 END
 FROM TRIANGLES
+                                      
+-- PIVOT TABLE
+
+SELECT D.Name, P.Name, S.Name, A.Name
+FROM(
+SELECT Name, ROW_NUMBER() OVER (ORDER BY Name) AS num
+FROM occupations
+WHERE Occupation = 'Doctor'
+) D
+RIGHT JOIN (
+SELECT Name, ROW_NUMBER() OVER (ORDER BY Name) AS num
+FROM occupations
+WHERE Occupation = 'Professor'
+) P ON D.num = P.num
+LEFT JOIN (
+SELECT Name, ROW_NUMBER() OVER (ORDER BY Name) AS num
+FROM occupations
+WHERE Occupation = 'Singer'
+) S ON D.num = S.num OR P.num = S.num
+LEFT JOIN (
+SELECT Name, ROW_NUMBER() OVER (ORDER BY Name) AS num
+FROM occupations
+WHERE Occupation = 'Actor'
+) A ON D.num = A.num OR P.num = A.num OR S.num = A.num;
+
